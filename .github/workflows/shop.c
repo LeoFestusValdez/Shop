@@ -12,7 +12,10 @@
 *@var erasers   		Number of erasers purhcased
 *@var notebooksprice    Individual price of a notebook
 *@var pensprice 		Individual price of a pen
-*@var erasersprice 	 Individual price of an eraser
+*@var erasersprice 	    Individual price of an eraser
+*@var firstname         First name of shopper
+*@var lastname          Last name of shopper
+*@author Leo Valdez
 *
 */
 #include <stdio.h>
