@@ -41,11 +41,14 @@ int main()
     printf("1. Buy Pen (Rs.10)\n");
     printf("2. Buy Notebook (Rs.40)\n");
     printf("3. Buy Eraser (Rs.5)\n");
-    printf("4. Generate bill\n");
-    printf("5. Exit\n");
-    printf("\nEnter your choice (1-5) based on the menu options: ");
+    printf("4. Remove Pen (Rs.10)\n");
+    printf("5. Remove Notebook (Rs.40)\n");
+    printf("6. Remove Erasers (Rs.5)\n");
+    printf("7. Generate bill\n");
+    printf("8. Exit\n");
+    printf("\nEnter your choice (1-8) based on the menu options: ");
     scanf("%d",&selector);
-    while (selector!=5)//keeps looping until the user wishes to exit
+    while (selector!=8)//keeps looping until the user wishes to exit
     {
         switch(selector)
             {
@@ -67,7 +70,46 @@ int main()
                         erasers++;
                         break;
                     }
-                case 4://display the bill
+                case 4:
+                    {
+                        if(pens>0)
+                        {
+                            printf("You removed a pen from the cart\n");
+                            pens--;
+                        }
+                        else
+                        {
+                            printf("You do not have any pens in your cart\n");
+                        }
+                        break;
+                    }
+                case 5:
+                    {
+                        if(notebooks>0)
+                        {
+                            printf("You removed a notebook from the cart\n");
+                            notebooks--;
+                        }
+                        else
+                        {
+                            printf("You do not have any notebooks in your cart\n");
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        if(erasers>0)
+                        {
+                            printf("You removed an eraser from the cart\n");
+                            erasers--;
+                        }
+                        else
+                        {
+                            printf("You do not have any erasers in your cart\n");
+                        }
+                        break;
+                    }
+                case 7://display the bill
                     {
                         printf("\n============Bill============\n");
                         printf("Item\t\tQty\t\tPrice\t\tTotal\n");
@@ -83,7 +125,7 @@ int main()
                         printf("Invalid choice!");
                     }
             }
-        printf("\nEnter your choice (1-5) based on the menu options: ");
+        printf("\nEnter your choice (1-8) based on the menu options: ");
         scanf("%d",&selector);
     }
     printf("\t*****Thank you for shopping, %s. We look forward to your next visit!*****\n",firstname);
