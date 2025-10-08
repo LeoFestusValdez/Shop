@@ -79,8 +79,9 @@ int main()
                         }
                         else
                         {
-                            printf("You do not have pen in your cart\n");
+                            printf("You do not have any pens in your cart\n");
                         }
+                        break;
                     }
                 case 5:
                     {
@@ -91,20 +92,22 @@ int main()
                         }
                         else
                         {
-                            printf("You do not have notebooks in your cart\n");
+                            printf("You do not have any notebooks in your cart\n");
                         }
+                        break;
                     }
                 case 6:
                     {
                         if(erasers>0)
                         {
-                            printf("You removed a eraser from the cart\n");
+                            printf("You removed an eraser from the cart\n");
                             erasers--;
                         }
                         else
                         {
-                            printf("You do not have eraser in your cart\n");
+                            printf("You do not have any erasers in your cart\n");
                         }
+                        break;
                     }
                 case 7://display the bill
                     {
