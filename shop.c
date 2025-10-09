@@ -23,7 +23,7 @@
 
 int main()
 {
-    int UID, reqUID, selector;
+    int UID, reqUID, selector, quantity;
     int notebooks=0, pens=0, erasers=0;
     int notebooksprice=40, pensprice=10, erasersprice=5;
     reqUID=632;
@@ -54,58 +54,112 @@ int main()
             {
                 case 1:
                     {
-                        printf("You bought a pen\n");
-                        pens++;
+                        printf("How many pens do you want to buy?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
+                        {
+                            printf("You bought +%d pens\n" ,quantity);
+                            pens=pens+quantity;
+                        }
+                        else
+                        {
+                            printf("Sorry you have entered an invalid input\n");
+                        }
                         break;
                     }
                 case 2:
                     {
-                        printf("You bought a notebook\n");
-                        notebooks++;
+                        printf("How many notebooks do you want to buy?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
+                        {
+                            printf("You bought +%d notebooks\n" ,quantity);
+                            notebooks=notebooks+quantity;
+                        }
+                        else
+                        {
+                            printf("Sorry you have entered an invalid input\n");
+                        }
                         break;
                     }
                 case 3:
                     {
-                        printf("You bought an eraser\n");
-                        erasers++;
+                        printf("How many erasers do you want to buy?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
+                        {
+                            printf("You bought +%d erasers\n" ,quantity);
+                            erasers=erasers+quantity;
+                        }
+                        else
+                        {
+                            printf("Sorry you have entered an invalid input\n");
+                        }
                         break;
                     }
                 case 4:
                     {
-                        if(pens>0)
+                        printf("How many pens do you want to remove?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
                         {
-                            printf("You removed a pen from the cart\n");
-                            pens--;
+                            if(pens>=quantity)
+                            {
+                                printf("You removed +%d pens\n" ,quantity);
+                                pens=pens-quantity;
+                            }
+                            else
+                            {
+                                printf("You don't have enough pens to remove\n");
+                            }      
                         }
                         else
                         {
-                            printf("You do not have any pens in your cart\n");
+                            printf("Sorry you have entered an invalid input\n");
                         }
                         break;
                     }
                 case 5:
                     {
-                        if(notebooks>0)
+                        printf("How many notebooks do you want to remove?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
                         {
-                            printf("You removed a notebook from the cart\n");
-                            notebooks--;
+                            if(notebooks>=quantity)
+                            {
+                                printf("You removed +%d notebooks\n" ,quantity);
+                                notebooks=notebooks-quantity;
+                            }
+                            else
+                            {
+                                printf("You don't have enough notebooks to remove\n");
+                            }      
                         }
                         else
                         {
-                            printf("You do not have any notebooks in your cart\n");
+                            printf("Sorry you have entered an invalid input\n");
                         }
                         break;
                     }
                 case 6:
                     {
-                        if(erasers>0)
+                         printf("How many erasers do you want to remove?\n");
+                        scanf("%d" ,&quantity);
+                        if(quantity>0);
                         {
-                            printf("You removed an eraser from the cart\n");
-                            erasers--;
+                            if(erasers>=quantity)
+                            {
+                                printf("You removed +%d erasers\n" ,quantity);
+                                erasers=erasers-quantity;
+                            }
+                            else
+                            {
+                                printf("You don't have enough erasers to remove\n");
+                            }      
                         }
                         else
                         {
-                            printf("You do not have any erasers in your cart\n");
+                            printf("Sorry you have entered an invalid input\n");
                         }
                         break;
                     }
