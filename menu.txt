@@ -1,0 +1,11 @@
+------- Menu -------
+0. Exit
+1. Get Owner Access
+2. Get Admin Access
+3. Generate Bill
+4. Buy Pen (Rs.10)
+5. Remove Pen
+6. Buy Notebook (Rs.40)
+7. Remove Notebook
+8. Buy Eraser (Rs.5)
+9. Remove Eraser

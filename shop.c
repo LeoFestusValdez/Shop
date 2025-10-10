@@ -1,187 +1,190 @@
-/**
-*@brief This program emulates a shop making use of a while loop and a switch statement
-*The program first checks if the entered UID is correct- if it is not it repeatedly prompts for the correct one, also giving the option to exit
-*The shop has 3 items, and the facility to check your bill after making purchases
-*The while loop keeps prompting the user until they decide to exit
-*
-*@var UID       		Input password
-*@var reqUID    		Required password
-*@var selector  		Switch statement option
-*@var notebooks 		Number of notebooks purchased
-*@var pens      		Number of pens purchased
-*@var erasers   		Number of erasers purhcased
-*@var notebooksprice    Individual price of a notebook
-*@var pensprice 		Individual price of a pen
-*@var erasersprice 	    Individual price of an eraser
-*@var firstname         First name of shopper
-*@var lastname          Last name of shopper
-*@author Leo Valdez
-*
-*/
-#include <stdio.h>
-#include <stdlib.h> //kept for future use of strtol
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int menulinelimit, menulinesinitial;
+
+void owneraccess()
+{
+    int adminlimit=6, adminsused, adminpassword;
+    char adminname[20];
+    char ownerselect1;
+    int ownerselect2;
+    printf("\nDo you wish to edit the access permissions? (y/n)\n");
+    scanf(" %c",&ownerselect1);
+    switch (ownerselect1)
+    {
+    case 'y':
+        printf("Enter your choice (number):\n1. Add admins\n2.Remove admins\n");
+        scanf("%d", &ownerselect2);
+        //instead of another text file you should somehow count the number of lines in access.txt to determine adminsused
+        FILE *fp1=fopen("adminsused.txt","r");
+        char line[1];
+        adminsused=(fgets(line,1,fp1));//is it read as an integer or a string if i save it as an integer? check.
+        fclose(fp1);
+        if (fp1==NULL)
+        {
+            printf("Could not find the number of admins used! Please check if it is saved\n");
+        }
+        else
+        {
+            switch (ownerselect2)
+            {
+            case 1:
+            if (adminsused<adminlimit)
+            {
+                //implement a change where if the name or number length is greater than needed, it says invalid instead of just reading the amount it wants
+                printf("Enter the name of the admin you wish to add: ");
+                scanf("%20s", &adminname);
+                printf("Enter the 6-digit access password of the admin: ");
+                scanf("%6d",&adminpassword);
+                adminsused++;
+                FILE *fp2=fopen("adminsused.txt","w");
+                if (fp2==NULL)
+                {
+                    printf("Could not increase the number of admins used! Please check if file is saved\n");
+                }
+                else
+                {
+                    fprintf(fp2,adminsused);
+                }
+                fclose(fp2);
+                FILE *fp3= fopen("access.txt","a");
+                if (fp3==NULL)
+                {
+                    printf("Could not write to the access file! Please check if file is saved\n");
+                }
+                else
+                {
+                    fprintf(fp3,"%s %d\n",adminname,adminpassword);
+                }
+                fclose(fp3);
+                printf("The new admin has been added!\n");
+            }
+            else
+            {
+                printf("Sorry, there can only be 6 admins including yourself!\n");
+            }
+            break;
+
+            case 2:
+                char adminremovename[20];
+                scanf("%20s",adminremovename);
+                FILE *fp4=fopen("access.txt","r");
+                if (fp4=NULL)
+                {   
+                    printf("Could not find the access file! Please check if it is saved\n");
+                }
+                else
+            {
+                FILE *fp5 = fopen("accesstmp.txt", "w"); // writing all admins except removed to a tmp file
+                if (fp5 == NULL)
+                {
+                    printf("Could not open an access tunnel\n");
+                }
+                else
+                {
+                    for (int i = 1; i <= adminsused; i++)
+                    {
+                        fscanf(fp4,"%20s %6d",adminname,adminpassword);
+                        int result = strcmp(adminname,adminremovename);//string.h library, compares strings, we cannot use the != operator directly as it compares memory addresses not string content
+                        if (result !=0)
+                        {
+                            fprintf(fp5, "%s %d\n", adminname, adminpassword);
+                        }
+                    }
+                fclose(fp5);
+            }
+            fclose(fp4);
+            FILE *fp6=fopen("adminsused.txt","w");
+            char no[1];
+            adminsused=fgets(no,1,fp6);
+            if (fp6==NULL)
+            {
+                printf("Could not update fprint count!\n");
+            }
+            else
+            {
+                adminsused--;
+                fprintf(fp6, "%d", adminsused);
+                fclose(fp6);
+            }
+            FILE *fp7 = fopen("accesstmp.txt", "r");
+            if (fp7 == NULL)
+            {
+                printf("Could not open an access tunnel\n");
+            }
+            else
+            {
+                FILE *fp8 = fopen("access.txt", "w");
+                if (fp8 == NULL)
+                {
+                    printf("Could not find the access file! Please check if it's saved\n");
+                }
+                else
+                {
+                    for (int i = 1; i <= adminsused; i++)
+                    {
+                        char line[200];
+                        fgets(line,200,fp7);
+                        fprintf(fp8,"%s",line);
+                    }
+                    printf("The admin was successfully removed!\n");
+                }
+            }
+            fclose(fp7);
+            break;
+        }
+            
+            default:
+                printf("Please enter a valid input!\n");
+                break;
+            }
+    case 'n':
+        printf("Owner mode exited!\n");
+        break;
+
+    default:
+        printf("Please enter a valid input!");
+        break;
+        }   
+
+}
+}
+
+int adminaccess()
+{
+
+}
+
+int menureader()
+{
+    FILE *fp0=fopen("menu.txt","r");
+    if (fp0==NULL)
+    {
+        printf("Could not open the menu! Please check if it is saved\n");
+    }
+    else
+    {
+        char line[200];
+        for (int linecount=1;linecount<(menulinelimit+menulinesinitial);linecount++)
+        {
+            fgets(line,200,fp0);
+            printf("%s",line);
+        }
+    }
+}
 
 int main()
 {
-    int UID, reqUID, selector, quantity;
-    int notebooks=0, pens=0, erasers=0;
-    int notebooksprice=40, pensprice=10, erasersprice=5;
-    reqUID=632;
-    char firstname[15]="Leo"; char secondname[15]="Valdez";
-    printf("Kindly enter your password(UID) to begin shopping: ");
-    scanf("%d",&UID);
-    while (UID!=reqUID)//checks if the password is correct and repeatedly prompts for correct password
-    {
-        printf("Please enter the correct UID or type '0' to exit: ");
-        scanf("%d",&UID);
-        if (UID==0){return 0;}
-    }
-    printf("\nWelcome %s %s,\n",firstname, secondname);
-    printf("------- Menu -------\n");
-    printf("1. Buy Pen (Rs.10)\n");
-    printf("2. Buy Notebook (Rs.40)\n");
-    printf("3. Buy Eraser (Rs.5)\n");
-    printf("4. Remove Pen (Rs.10)\n");
-    printf("5. Remove Notebook (Rs.40)\n");
-    printf("6. Remove Erasers (Rs.5)\n");
-    printf("7. Generate bill\n");
-    printf("8. Exit\n");
-    printf("\nEnter your choice (1-8) based on the menu options: ");
-    scanf("%d",&selector);
-    while (selector!=8)//keeps looping until the user wishes to exit
-    {
-        switch(selector)
-            {
-                case 1:
-                    {
-                        printf("How many pens do you want to buy?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            printf("You bought %d pens\n" ,quantity);
-                            pens=pens+quantity;
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 2:
-                    {
-                        printf("How many notebooks do you want to buy?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            printf("You bought %d notebooks\n" ,quantity);
-                            notebooks=notebooks+quantity;
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 3:
-                    {
-                        printf("How many erasers do you want to buy?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            printf("You bought %d erasers\n" ,quantity);
-                            erasers=erasers+quantity;
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 4:
-                    {
-                        printf("How many pens do you want to remove?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            if(pens>=quantity)
-                            {
-                                printf("You removed %d pens\n" ,quantity);
-                                pens=pens-quantity;
-                            }
-                            else
-                            {
-                                printf("You don't have enough pens to remove\n");
-                            }      
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 5:
-                    {
-                        printf("How many notebooks do you want to remove?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            if(notebooks>=quantity)
-                            {
-                                printf("You removed %d notebooks\n" ,quantity);
-                                notebooks=notebooks-quantity;
-                            }
-                            else
-                            {
-                                printf("You don't have enough notebooks to remove\n");
-                            }      
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 6:
-                    {
-                         printf("How many erasers do you want to remove?\n");
-                        scanf("%d" ,&quantity);
-                        if(quantity>0)
-                        {
-                            if(erasers>=quantity)
-                            {
-                                printf("You removed %d erasers\n" ,quantity);
-                                erasers=erasers-quantity;
-                            }
-                            else
-                            {
-                                printf("You don't have enough erasers to remove\n");
-                            }      
-                        }
-                        else
-                        {
-                            printf("Sorry you have entered an invalid input\n");
-                        }
-                        break;
-                    }
-                case 7://display the bill
-                    {
-                        printf("\n============Bill============\n");
-                        printf("Item\t\tQty\t\tPrice\t\tTotal\n");
-                        printf("Pen\t\t%d\t\t%d\t\t%d\n",pens, pensprice, pens*pensprice);
-                        printf("Notebook\t%d\t\t%d\t\t%d\n",notebooks, notebooksprice, notebooks*notebooksprice);
-                        printf("Eraser\t\t%d\t\t%d\t\t%d\n",erasers, erasersprice, erasers*erasersprice);
-                        printf("-----------------------------\n");
-                        printf("Grand Total= %d\n",pens*pensprice+notebooks*notebooksprice+erasers*erasersprice);
-                        break;
-                    }
-                default:
-                    {
-                        printf("Invalid choice!\n");
-                    }
-            }
-        printf("\nEnter your choice (1-8) based on the menu options: ");
-        scanf("%d",&selector);
-    }
-    printf("\t*****Thank you for shopping, %s. We look forward to your next visit!*****\n",firstname);
+    int pwd;
+    char firstname[20], lastname[20];
+    menureader();
+    owneraccess();
     return 0;
 }
+//23 remove int
+//49 convert adminsused to a str before inputting
+//103 remove int
+//135 \n
+//160 undefined menuinitiallines
