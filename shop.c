@@ -19,7 +19,7 @@
 *
 */
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> //kept for future use of strtol
 
 int main()
 {
@@ -56,9 +56,9 @@ int main()
                     {
                         printf("How many pens do you want to buy?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
-                            printf("You bought +%d pens\n" ,quantity);
+                            printf("You bought %d pens\n" ,quantity);
                             pens=pens+quantity;
                         }
                         else
@@ -71,9 +71,9 @@ int main()
                     {
                         printf("How many notebooks do you want to buy?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
-                            printf("You bought +%d notebooks\n" ,quantity);
+                            printf("You bought %d notebooks\n" ,quantity);
                             notebooks=notebooks+quantity;
                         }
                         else
@@ -86,9 +86,9 @@ int main()
                     {
                         printf("How many erasers do you want to buy?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
-                            printf("You bought +%d erasers\n" ,quantity);
+                            printf("You bought %d erasers\n" ,quantity);
                             erasers=erasers+quantity;
                         }
                         else
@@ -101,11 +101,11 @@ int main()
                     {
                         printf("How many pens do you want to remove?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
                             if(pens>=quantity)
                             {
-                                printf("You removed +%d pens\n" ,quantity);
+                                printf("You removed %d pens\n" ,quantity);
                                 pens=pens-quantity;
                             }
                             else
@@ -123,11 +123,11 @@ int main()
                     {
                         printf("How many notebooks do you want to remove?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
                             if(notebooks>=quantity)
                             {
-                                printf("You removed +%d notebooks\n" ,quantity);
+                                printf("You removed %d notebooks\n" ,quantity);
                                 notebooks=notebooks-quantity;
                             }
                             else
@@ -145,11 +145,11 @@ int main()
                     {
                          printf("How many erasers do you want to remove?\n");
                         scanf("%d" ,&quantity);
-                        if(quantity>0);
+                        if(quantity>0)
                         {
                             if(erasers>=quantity)
                             {
-                                printf("You removed +%d erasers\n" ,quantity);
+                                printf("You removed %d erasers\n" ,quantity);
                                 erasers=erasers-quantity;
                             }
                             else
@@ -171,12 +171,12 @@ int main()
                         printf("Notebook\t%d\t\t%d\t\t%d\n",notebooks, notebooksprice, notebooks*notebooksprice);
                         printf("Eraser\t\t%d\t\t%d\t\t%d\n",erasers, erasersprice, erasers*erasersprice);
                         printf("-----------------------------\n");
-                        printf("Grand Total= %d",pens*pensprice+notebooks*notebooksprice+erasers*erasersprice);
+                        printf("Grand Total= %d\n",pens*pensprice+notebooks*notebooksprice+erasers*erasersprice);
                         break;
                     }
                 default:
                     {
-                        printf("Invalid choice!");
+                        printf("Invalid choice!\n");
                     }
             }
         printf("\nEnter your choice (1-8) based on the menu options: ");
