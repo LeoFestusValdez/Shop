@@ -69,13 +69,14 @@ void owneraccess()
 
             case 2:
                 char adminremovename[20];
+                printf("Enter the name of the admin you want to remove\n");
                 scanf("%20s", adminremovename);
                 FILE *fp4 = fopen("access.txt", "r");
-                if (fp4 = NULL)
                 if (fp4 == NULL)
                 {
                     printf("Could not find the access file! Please check if it is saved\n");
                 }
+                else
                 {
                     FILE *fp5 = fopen("accesstmp.txt", "w"); // writing all admins except removed to a tmp file
                     if (fp5 == NULL)
@@ -86,7 +87,9 @@ void owneraccess()
                     {
                         for (int i = 1; i <= adminsused; i++)
                         {
-                            fscanf(fp4, "%20s %6d", adminname, adminpassword);
+                            fscanf(fp4, "%20s %6d", adminname, adminpassword);/*segmentation fault
+                            likely because 'adminname' and 'adminpassword' variables are not declared in the visible scope
+                            and need to be properly declared before use.*/
                             int result = strcmp(adminname, adminremovename); // string.h library, compares strings, we cannot use the != operator directly as it compares memory addresses not string content
                             if (result != 0)
                             {
