@@ -183,6 +183,3 @@ int main()
     owneraccess();
     return 0;
 }
-// 23 remove int
-// 49 convert adminsused to a str before inputting
-// 103 remove int
