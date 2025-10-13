@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int menulinelimit, menulinesinitial;
+int menulinelimit=6, menulinesinitial=6;
 
 void owneraccess()
 {
@@ -170,11 +170,25 @@ void owneraccess()
 while loop continuous prompting
 recognition of invalid (>19) adminname and password (>6)*/
 
-int adminaccess()
+void adminaccess()//the condition to access this will be executed within the main switch statement
 {
+    char itemname[40];
+    int itemcost, adminselect2, itemsnumber;
+    char adminselect1;
+    FILE* fp11=fopen("itemsno.txt","r");
+    if (fp11==NULL)
+    {
+        printf("Couldn't find the number of items!\n");
+    }
+    else
+    {
+        itemsnumber=fscanf(fp11,"%d",itemsnumber);
+        fclose(fp11);
+        //here's where we left off 
+    }
 }
 
-int menureader()
+void menureader()
 {
     FILE *fp0 = fopen("menu.txt", "r");
     if (fp0 == NULL)
@@ -191,12 +205,13 @@ int menureader()
         }
     }
 }
+//completed
 
 int main()
 {
     int pwd;
     menureader();
     owneraccess();
+    adminaccess();
     return 0;
 }
-//add works, remove gives a trash pointer in adminsused and wipes access.txt completely.
