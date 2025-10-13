@@ -24,7 +24,7 @@ void owneraccess()
         switch (ownerselect1)
         {
         case 'y':
-            printf("Enter your choice (number):\n1. Add admins\n2.Remove admins\n");
+            printf("Enter your choice (number):\n1. Add admins\n2. Remove admins\n");
             scanf("%d", &ownerselect2);
             // instead of another text file you should somehow count the number of lines in access.txt to determine adminsused
 
@@ -35,7 +35,7 @@ void owneraccess()
                 {
                     // implement a change where if the name or number length is greater than needed, it says invalid instead of just reading the amount it wants
                     printf("Enter the name of the admin you wish to add: ");
-                    scanf("%20s", &adminname);
+                    scanf("%19s", &adminname);
                     printf("Enter the 6-digit access password of the admin: ");
                     scanf("%6d", &adminpassword);
                     adminsused++;
@@ -56,7 +56,7 @@ void owneraccess()
                     }
                     else
                     {
-                        fprintf(fp3, "%s %d\n", adminname, adminpassword);
+                        fprintf(fp3, "\n%s %d", adminname, adminpassword);
                     }
                     fclose(fp3);
                     printf("The new admin has been added!\n");
@@ -70,7 +70,7 @@ void owneraccess()
             case 2:
                 char adminremovename[20];
                 printf("Enter the name of the admin you want to remove\n");
-                scanf("%20s", adminremovename);
+                scanf("%20s", &adminremovename);
                 FILE *fp4 = fopen("access.txt", "r");
                 if (fp4 == NULL)
                 {
@@ -78,7 +78,7 @@ void owneraccess()
                 }
                 else
                 {
-                    FILE *fp5 = fopen("accesstmp.txt", "w"); // writing all admins except removed to a tmp file
+                    FILE *fp5 = fopen("accesstmp.txt", "a"); // writing all admins except removed to a tmp file
                     if (fp5 == NULL)
                     {
                         printf("Could not open an access tunnel\n");
@@ -87,10 +87,8 @@ void owneraccess()
                     {
                         for (int i = 1; i <= adminsused; i++)
                         {
-                            fscanf(fp4, "%20s %6d", adminname, adminpassword);/*segmentation fault
-                            likely because 'adminname' and 'adminpassword' variables are not declared in the visible scope
-                            and need to be properly declared before use.*/
-                            int result = strcmp(adminname, adminremovename); // string.h library, compares strings, we cannot use the != operator directly as it compares memory addresses not string content
+                            fscanf(fp4, "%19s %6d", &adminname, &adminpassword); 
+                            int result = strcmp(adminname, adminremovename);   // string.h library, compares strings, we cannot use the != operator directly as it compares memory addresses not string content
                             if (result != 0)
                             {
                                 fprintf(fp5, "%s %d\n", adminname, adminpassword);
@@ -100,11 +98,9 @@ void owneraccess()
                     }
                     fclose(fp4);
                     FILE *fp6 = fopen("adminsused.txt", "w");
-                    char no[1];
-                    adminsused = (long)fgets(no, 1, fp6);
                     if (fp6 == NULL)
                     {
-                        printf("Could not update fprint count!\n");
+                        printf("Could not update admin count!\n");
                     }
                     else
                     {
@@ -119,24 +115,39 @@ void owneraccess()
                     }
                     else
                     {
-                        FILE *fp8 = fopen("access.txt", "w");
+                        FILE *fp8 = fopen("access.txt", "w");//clear the previous admins from access file
                         if (fp8 == NULL)
                         {
                             printf("Could not find the access file! Please check if it's saved\n");
+                        }
+                        fclose(fp8);
+                        FILE *fp10=fopen("access.txt","a");
+                        if (fp10==NULL)
+                        {
+                            printf("Could not open the access file!\n");
                         }
                         else
                         {
                             for (int i = 1; i <= adminsused; i++)
                             {
                                 char line[200];
-                                fgets(line, 200, fp7);
-                                fprintf(fp8, "%s", line);
+                                fgets(line, 199, fp7);
+                                fprintf(fp10, "%s", line);
                             }
                             printf("The admin was successfully removed!\n");
-                            fclose(fp8);
+                            fclose(fp10);
                         }
                     }
                     fclose(fp7);
+                    FILE *fp9=fopen("accesstmp.txt","w");
+                    if (fp9==NULL)
+                    {
+                        printf("Could not wipe the tmp file!\n");
+                    }
+                    else
+                    {
+                    fclose(fp9);
+                    }
                     break;
 
                 default:
@@ -155,6 +166,9 @@ void owneraccess()
         }
     }
 }
+/*additional implementations:
+while loop continuous prompting
+recognition of invalid (>19) adminname and password (>6)*/
 
 int adminaccess()
 {
@@ -172,7 +186,7 @@ int menureader()
         char line[200];
         for (int linecount = 1; linecount < (menulinelimit + menulinesinitial); linecount++)
         {
-            fgets(line, 200, fp0);
+            fgets(line, 199, fp0);
             printf("%s", line);
         }
     }
@@ -181,8 +195,8 @@ int menureader()
 int main()
 {
     int pwd;
-    char firstname[20], lastname[20];
     menureader();
     owneraccess();
     return 0;
 }
+//add works, remove gives a trash pointer in adminsused and wipes access.txt completely.
