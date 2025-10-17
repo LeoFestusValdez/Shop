@@ -2,7 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-int menulinelimit=6, menulinesinitial=6;
+int menulines=0;
+
+void menulinesdeterminer()
+{
+    FILE* fp11=fopen("menu.txt","r");
+    if (fp11==NULL)
+    {
+        printf("Couldn't find the number of items!\n");
+    }
+    else
+    {
+        int c;
+        while ((c=fgetc(fp11))!=EOF)
+        {
+            if (c=='\n')
+            {
+                menulines++;
+            }
+        }
+        printf("The number of lines in the menu is %d",menulines);
+        fclose(fp11);
+    }
+}
+//this works only when even the last line has a newline char
 
 void owneraccess()
 {
@@ -168,28 +191,20 @@ void owneraccess()
 }
 /*additional implementations:
 while loop continuous prompting
-recognition of invalid (>19) adminname and password (>6)*/
+recognition of invalid (>19) adminname and password (>6)
+use file line counting instead of the separate txt*/
 
 void adminaccess()//the condition to access this will be executed within the main switch statement
 {
+    menulinesdeterminer();
     char itemname[40];
     int itemcost, adminselect2, itemsnumber;
     char adminselect1;
-    FILE* fp11=fopen("itemsno.txt","r");
-    if (fp11==NULL)
-    {
-        printf("Couldn't find the number of items!\n");
-    }
-    else
-    {
-        itemsnumber=fscanf(fp11,"%d",itemsnumber);
-        fclose(fp11);
-        //here's where we left off 
-    }
 }
 
 void menureader()
 {
+    menulinesdeterminer();
     FILE *fp0 = fopen("menu.txt", "r");
     if (fp0 == NULL)
     {
@@ -198,7 +213,7 @@ void menureader()
     else
     {
         char line[200];
-        for (int linecount = 1; linecount < (menulinelimit + menulinesinitial); linecount++)
+        for (int linecount = 1; linecount < menulines; linecount++)
         {
             fgets(line, 199, fp0);
             printf("%s", line);
@@ -210,8 +225,6 @@ void menureader()
 int main()
 {
     int pwd;
-    menureader();
-    owneraccess();
     adminaccess();
     return 0;
 }
